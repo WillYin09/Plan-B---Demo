@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import "windi.css";
-import ClientLayout from "./client-layout.tsx";
+import ClientLayout from "./client-layout";
 
 export const metadata = {
   title: "Create Next App",
