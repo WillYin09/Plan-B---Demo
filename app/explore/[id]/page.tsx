@@ -32,7 +32,7 @@ const mockPosts = [
 export default function ExploreDetail() {
   const router = useRouter();
   const params = useParams();
-  const { id } = params;
+  const { id } = params as { id: string };
 
   // 查找当前帖子
   const post =
