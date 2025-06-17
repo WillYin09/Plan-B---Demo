@@ -20,7 +20,7 @@ export default function MoodChat() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    const newMessages = [...messages, { role: "user", text: input }];
+    const newMessages: ChatMessage[] = [...messages, { role: "user", text: input }];
     setMessages(newMessages);
     setInput("");
     setLoading(true);
@@ -33,7 +33,7 @@ export default function MoodChat() {
           messages: [
             { role: "system", content: "你是一个温柔的情绪陪伴者。" },
             ...newMessages.map((m) => ({
-              role: m.role === "user" ? "user" : "assistant",
+              role: m.role === "user" ? "user" : "assistant", // 只在API请求时转义
               content: m.text,
             })),
           ],
@@ -41,12 +41,22 @@ export default function MoodChat() {
       });
 
       const data = await res.json();
-      const aiText = data.choices?.[0]?.message?.content || "抱歉，我刚刚没听清，你可以再说一遍吗？";
+      const aiText =
+        data.choices?.[0]?.message?.content ||
+        "抱歉，我刚刚没听清，你可以再说一遍吗？";
       setMessages([...newMessages, { role: "ai", text: aiText }]);
     } catch (err) {
       setMessages([...newMessages, { role: "ai", text: "出错啦，请稍后再试试～" }]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // 支持按回车发送
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey && !loading) {
+      e.preventDefault();
+      sendMessage();
     }
   };
 
@@ -131,6 +141,7 @@ export default function MoodChat() {
             rows={2}
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
             disabled={loading}
           />
           <button
