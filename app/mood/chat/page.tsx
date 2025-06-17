@@ -1,26 +1,59 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 
-const messages = [
-  { role: "user", text: "我最近总是失眠…" },
-  { role: "ai", text: "我能理解你。最近有没有特别让你焦虑的事情？" },
-  { role: "user", text: "可能是还没找到新工作吧…" },
-  { role: "ai", text: "换工作的过程确实不容易，我们可以先把注意力放在能控制的小目标上。" },
-];
+interface ChatMessage {
+  role: "user" | "ai";
+  text: string;
+}
 
 export default function MoodChat() {
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    { role: "ai", text: "你好呀，我是你的情绪陪伴者，今天想聊点什么呢？" },
+  ]);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // 保持聊天区域滚动到底部
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+    const newMessages = [...messages, { role: "user", text: input }];
+    setMessages(newMessages);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            { role: "system", content: "你是一个温柔的情绪陪伴者。" },
+            ...newMessages.map((m) => ({
+              role: m.role === "user" ? "user" : "assistant",
+              content: m.text,
+            })),
+          ],
+        }),
+      });
+
+      const data = await res.json();
+      const aiText = data.choices?.[0]?.message?.content || "抱歉，我刚刚没听清，你可以再说一遍吗？";
+      setMessages([...newMessages, { role: "ai", text: aiText }]);
+    } catch (err) {
+      setMessages([...newMessages, { role: "ai", text: "出错啦，请稍后再试试～" }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f7f7fa]">
       <div className="max-w-md mx-auto py-6 px-2 flex flex-col h-screen">
-        {/* 顶部插画与问候 */}
+        {/* 插画与提示语 */}
         <div>
           <div className="flex justify-center mb-4">
             <img
@@ -34,7 +67,7 @@ export default function MoodChat() {
           </div>
         </div>
 
-        {/* 聊天区域 */}
+        {/* 聊天展示 */}
         <div className="flex-1 overflow-y-auto space-y-3 py-2">
           {messages.map((msg, i) => (
             <div
@@ -62,7 +95,7 @@ export default function MoodChat() {
           <div ref={bottomRef} />
         </div>
 
-        {/* 其它功能入口 */}
+        {/* 冥想 & 群组 */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center bg-blue-50 rounded-xl p-3 shadow">
             <span className="mr-3 text-xl">🌬️</span>
@@ -90,7 +123,7 @@ export default function MoodChat() {
           </div>
         </div>
 
-        {/* 底部输入栏 */}
+        {/* 输入栏 */}
         <div className="flex gap-2 mt-2">
           <textarea
             className="flex-1 rounded-xl border border-gray-200 p-3 shadow resize-none focus:outline-none"
@@ -98,16 +131,16 @@ export default function MoodChat() {
             rows={2}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            disabled
+            disabled={loading}
           />
           <button
+            onClick={sendMessage}
             className="px-5 py-2 rounded-xl bg-orange-500 text-white font-semibold shadow hover:opacity-90"
-            disabled
+            disabled={loading}
           >
-            发送
+            {loading ? "发送中…" : "发送"}
           </button>
         </div>
-        {/* 可根据需要将 disabled 移除并实现交互 */}
       </div>
     </div>
   );

@@ -8,26 +8,37 @@ const OPTIONS = [
   { label: "焦虑等待裁员", value: "anxious" },
   { label: "其他", value: "other" },
 ];
+const ILLUSTRATION_URL = "/78f0b74b-4289-40a5-a297-ab504ab72a0a.png";
 
-export default function Onboarding() {
+export default function OnboardingPage() {
   const [selected, setSelected] = useState<string>("");
   const [otherText, setOtherText] = useState("");
   const router = useRouter();
 
+  const handleSubmit = () => {
+    if (!selected || (selected === "other" && !otherText.trim())) {
+      return;
+    }
+    localStorage.setItem("hasVisited", "true");
+    router.push("/tasks"); // 跳转任务清单页
+  };
+
   return (
     <div className="min-h-screen bg-[#f7f7fa] flex flex-col items-center">
       <div className="w-full max-w-md mx-auto flex flex-col justify-between min-h-[80vh] py-6 px-2">
-        {/* 顶部返回+图片 */}
         <div>
           <button
-            onClick={() => router.back()}
+            onClick={() => {
+              localStorage.setItem("hasVisited", "true");
+              router.push("/");
+            }}
             className="mb-4 text-gray-400 hover:text-gray-700 transition"
           >
             ← 返回
           </button>
           <div className="flex justify-center mb-6">
             <img
-              src="https://placehold.co/320x120?text=插画"
+              src={ILLUSTRATION_URL}
               alt="插画"
               className="rounded-xl shadow bg-white w-80 h-32 object-contain"
             />
@@ -60,17 +71,10 @@ export default function Onboarding() {
             />
           )}
         </div>
-        {/* 底部按钮 */}
         <div className="space-y-3 mb-2">
           <button
-            className="w-full py-3 rounded-xl bg-gray-200 text-gray-700 font-medium shadow hover:bg-gray-300 transition"
-            onClick={() => alert("继续填写占位（可跳下一题）")}
-          >
-            ➖ 继续填写
-          </button>
-          <button
             className="w-full py-3 rounded-xl bg-orange-400 text-white font-bold shadow hover:bg-orange-500 transition"
-            onClick={() => router.push("/tasks")}
+            onClick={handleSubmit}
             disabled={!selected || (selected === "other" && !otherText.trim())}
           >
             直接生成任务清单

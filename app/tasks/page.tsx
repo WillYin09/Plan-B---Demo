@@ -43,16 +43,28 @@ export default function Tasks() {
     alert("更多任务加载占位（可接入AI/服务端）");
   };
 
-  // 切换任务完成状态
-  const markDone = (id: string) => {
+  // 支持“完成/未完成”状态切换
+  const toggleDone = (id: string) => {
     setTasks(prev =>
-      prev.map(t => t.id === id ? { ...t, status: "done" } : t)
+      prev.map(t =>
+        t.id === id
+          ? { ...t, status: t.status === "done" ? "new" : "done" }
+          : t
+      )
     );
   };
 
   return (
     <div className="min-h-screen bg-[#f7f7fa] flex flex-col items-center px-2 py-6">
       <div className="w-full max-w-md mx-auto">
+        {/* 返回按钮 */}
+        <button
+          className="mb-4 text-gray-400 hover:text-gray-700 transition flex items-center"
+          onClick={() => router.push("/")}
+        >
+          <span className="mr-1 text-lg">←</span> 返回首页
+        </button>
+
         {/* 顶部插画+标题 */}
         <div className="flex flex-col items-center mb-6">
           <img src="https://placehold.co/320x120?text=插画" alt="插画" className="rounded-xl shadow bg-white w-80 h-32 object-contain mb-4" />
@@ -75,22 +87,20 @@ export default function Tasks() {
               </div>
               <div className="flex gap-2 mt-2">
                 <button
-                  className={`px-4 py-2 rounded bg-orange-500 text-white text-sm font-semibold hover:opacity-90 transition ${
-                    task.status === "done" ? "opacity-60 cursor-not-allowed" : ""
-                  }`}
-                  disabled={task.status === "done"}
+                  className="px-4 py-2 rounded bg-orange-500 text-white text-sm font-semibold hover:opacity-90 transition"
                   onClick={() => router.push(`/tasks/${task.id}`)}
                 >
                   去查看
                 </button>
                 <button
-                  className={`px-4 py-2 rounded bg-gray-300 text-gray-700 text-sm font-semibold hover:opacity-90 transition ${
-                    task.status === "done" ? "opacity-60 cursor-not-allowed" : ""
-                  }`}
-                  disabled={task.status === "done"}
-                  onClick={() => markDone(task.id)}
+                  className={`px-4 py-2 rounded text-sm font-semibold transition
+                    ${task.status === "done"
+                      ? "bg-green-100 text-green-700 border-green-300 border"
+                      : "bg-orange-100 text-orange-700 border-orange-200 border"
+                    }`}
+                  onClick={() => toggleDone(task.id)}
                 >
-                  {task.status === "done" ? "已完成" : "标记完成"}
+                  {task.status === "done" ? "✅ 已完成（点我撤回）" : "标记完成"}
                 </button>
               </div>
             </div>
