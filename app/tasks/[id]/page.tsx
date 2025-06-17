@@ -20,7 +20,7 @@ const TASKS = [
 export default function TaskDetail() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const { id } = params;
+  const { id } = params as { id: string };
   const task = TASKS.find(t => t.id === id);
   const [done, setDone] = useState(task?.status === "done");
 
