@@ -1,22 +1,10 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { SectionTitle } from "../../components/SectionTitle";
 
 interface ChatMessage {
   role: "user" | "ai";
   text: string;
-}
-
-function BackButton({ label = "返回" }) {
-  const router = useRouter();
-  return (
-    <button
-      onClick={() => router.back()}
-      className="mb-4 text-gray-400 hover:text-gray-700 transition flex items-center"
-    >
-      <span className="text-xl mr-1">←</span> {label}
-    </button>
-  );
 }
 
 export default function MoodChat() {
@@ -76,8 +64,7 @@ export default function MoodChat() {
   return (
     <div className="min-h-screen bg-[#f7f7fa]">
       <div className="max-w-md mx-auto py-6 px-2 flex flex-col h-screen">
-        {/* 返回按钮 */}
-        <BackButton />
+        <SectionTitle title="情绪陪伴" showBack />
 
         {/* 插画与提示语 */}
         <div>

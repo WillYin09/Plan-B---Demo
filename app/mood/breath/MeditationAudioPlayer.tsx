@@ -6,13 +6,14 @@ interface Props {
 }
 
 export default function MeditationAudioPlayer({ text }: Props) {
-  const [status, setStatus] = useState<
-    "idle" | "ready" | "playing" | "paused" | "error"
-  >("idle");
+  const [status, setStatus] = useState<"idle" | "ready" | "playing" | "paused" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const synthRef = useRef<SpeechSynthesisUtterance | null>(null);
   const [voiceReady, setVoiceReady] = useState(false);
+
+  // 修复浏览器暂停/停止时的异常触发
+  const userStopRef = useRef(false);
 
   // 选择中文女声
   function getZhFemaleVoice(): SpeechSynthesisVoice | null {
@@ -21,11 +22,9 @@ export default function MeditationAudioPlayer({ text }: Props) {
       voices.find(
         (v) =>
           v.lang === "zh-CN" &&
-          (v.name.includes("Xiaoxiao") ||
-            v.name.includes("female") ||
-            v.name.includes("女"))
-      ) || 
-      voices.find((v) => v.lang.startsWith("zh")) || 
+          (v.name.includes("Xiaoxiao") || v.name.includes("female") || v.name.includes("女"))
+      ) ||
+      voices.find((v) => v.lang.startsWith("zh")) ||
       null
     );
   }
@@ -34,12 +33,11 @@ export default function MeditationAudioPlayer({ text }: Props) {
   const play = () => {
     if (!text) return;
     setError(null);
-
-    // 如果有正在播放的朗读，先取消
+    userStopRef.current = false;
+    // 取消前一个朗读
     window.speechSynthesis.cancel();
 
     const utter = new window.SpeechSynthesisUtterance(text);
-    // 设置中文女声
     const voice = getZhFemaleVoice();
     if (voice) utter.voice = voice;
     utter.lang = "zh-CN";
@@ -51,15 +49,18 @@ export default function MeditationAudioPlayer({ text }: Props) {
       setStatus("playing");
     };
     utter.onend = () => {
-      setStatus("ready");
-      setProgress(100);
+      if (!userStopRef.current) {
+        setStatus("ready");
+        setProgress(100);
+      }
     };
     utter.onerror = (e) => {
-      setStatus("error");
-      setError("朗读失败，请重试或更换浏览器");
+      if (!userStopRef.current) {
+        setStatus("error");
+        setError("朗读失败，请重试或更换浏览器");
+      }
     };
     utter.onboundary = (event) => {
-      // 简单估算进度（每个单词/字符）
       if (typeof event.charIndex === "number" && text.length > 0) {
         setProgress(Math.floor((event.charIndex / text.length) * 100));
       }
@@ -80,6 +81,7 @@ export default function MeditationAudioPlayer({ text }: Props) {
     setStatus("playing");
   };
   const stop = () => {
+    userStopRef.current = true; // 避免onend/onerror误报
     window.speechSynthesis.cancel();
     setStatus("ready");
     setProgress(0);
@@ -90,6 +92,7 @@ export default function MeditationAudioPlayer({ text }: Props) {
     setStatus("ready");
     setProgress(0);
     setError(null);
+    userStopRef.current = false;
     // 某些浏览器（如Chrome）语音列表是懒加载的
     if (window.speechSynthesis.getVoices().length === 0) {
       window.speechSynthesis.onvoiceschanged = () => setVoiceReady(true);

@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { SectionTitle } from "../components/SectionTitle";
 
 // mock 情绪功能数据
 const moodFeatures = [
@@ -24,7 +25,7 @@ const moodFeatures = [
     title: "情绪调节技巧",
     desc: "学会识别情绪，调节节律",
     action: "查看技巧",
-    link: "/mood/skills",
+    link: "/mood/tips",
     bg: "bg-green-50",
   },
   {
@@ -69,17 +70,10 @@ function MoodCard({
 }
 
 export default function MoodHome() {
-  const router = useRouter(); // ← 必须有这行
   return (
     <div className="min-h-screen bg-[#f7f7fa] flex flex-col">
       <div className="w-full max-w-md mx-auto py-10 px-4 space-y-6">
-        {/* 返回按钮推荐放这里 */}
-        <button
-          onClick={() => router.back()}
-          className="mb-4 text-gray-400 hover:text-gray-700 transition"
-        >
-          ← 返回
-        </button>
+        <SectionTitle title="情绪管理" showBack />
         {/* 顶部插画 */}
         <div className="flex justify-center mb-2">
           <img
