@@ -2,6 +2,9 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { SectionTitle } from "../components/SectionTitle";
+import { ExploreCard } from "../components/ExploreCard";
 
 // mock 分类
 const TABS = [
@@ -42,6 +45,21 @@ const posts = [
   },
 ];
 
+const staggerAnimation = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemAnimation = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
+
 export default function Explore() {
   const [tab, setTab] = useState("share");
   const router = useRouter();
@@ -53,71 +71,75 @@ export default function Explore() {
 
   return (
     <div className="max-w-md mx-auto py-6 px-4 min-h-screen bg-[#f7f7fa]">
-      {/* 返回按钮 */}
-      <button
-          onClick={() => router.back()}
-          className="mb-4 text-gray-400 hover:text-gray-700 transition"
-        >
-          ← 返回
-        </button>
+      <SectionTitle title="内容广场" subtitle="发现和分享职业过渡期的经验" showBack />
+      
       {/* 顶部插画+文案 */}
-      <div className="flex flex-col items-center mb-4">
-        <img
-          src="https://placehold.co/320x120?text=内容广场"
-          alt="插画"
-          className="rounded-xl shadow bg-white w-80 h-32 object-contain mb-2"
-        />
-        <div className="font-bold text-lg text-center">
-          你的故事，可能正在帮别人走出困境
+      <motion.div 
+        className="relative w-full h-40 mb-8 overflow-hidden rounded-2xl shadow-lg"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-80"></div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
+          <h2 className="text-2xl font-bold mb-2">一起分享经历</h2>
+          <p className="text-center text-sm opacity-90">你的故事，可能正在帮别人走出困境</p>
         </div>
-      </div>
+      </motion.div>
+      
       {/* 分类Tab */}
-      <div className="flex space-x-2 mb-4 justify-center">
+      <div className="flex justify-center mb-6">
         {TABS.map((t) => (
-          <button
+          <motion.button
             key={t.value}
             onClick={() => setTab(t.value)}
-            className={`px-4 py-2 rounded-full font-medium transition ${
+            className={`px-5 py-2 mx-1 rounded-full font-medium transition-all ${
               tab === t.value
-                ? "bg-orange-500 text-white shadow"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-primary-500 text-white shadow-button"
+                : "bg-white text-gray-700 hover:bg-secondary-50 border border-gray-200"
             }`}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.97 }}
           >
             {t.label}
-          </button>
+          </motion.button>
         ))}
       </div>
+      
+      {/* 创建帖子按钮 */}
+      <motion.button
+        className="w-full py-3 mb-6 rounded-xl bg-secondary-500 text-white font-medium shadow-button flex items-center justify-center gap-2"
+        onClick={() => router.push('/explore/create')}
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.97 }}
+      >
+        <span>✍️</span>
+        <span>分享我的经历</span>
+      </motion.button>
+      
       {/* 内容卡片 */}
-      <div className="space-y-4">
+      <motion.div 
+        className="space-y-5"
+        variants={staggerAnimation}
+        initial="hidden"
+        animate="show"
+      >
         {filtered.length === 0 && (
           <div className="text-gray-400 text-center py-8">暂无内容</div>
         )}
         {filtered.map((post) => (
-          <div
-            key={post.id}
-            className="bg-white rounded-xl shadow-md p-4 flex flex-col"
-          >
-            <div className="font-semibold text-base mb-1">{post.title}</div>
-            <div className="text-xs text-gray-400 mb-2">by {post.author}</div>
-            <div className="flex flex-wrap gap-2 mb-3">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="bg-gray-100 text-xs px-2 py-1 rounded"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-            <button
-              className="self-end px-4 py-2 rounded bg-orange-500 text-white font-medium hover:opacity-90 transition"
-              onClick={() => router.push(`/explore/${post.id}`)}
-            >
-              查看详情
-            </button>
-          </div>
+          <motion.div key={post.id} variants={itemAnimation}>
+            <ExploreCard
+              id={post.id}
+              title={post.title}
+              author={post.author}
+              tags={post.tags}
+              type={post.type}
+              onClick={(id) => router.push(`/explore/${id}`)}
+            />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

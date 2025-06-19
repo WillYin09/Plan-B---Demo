@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { SectionTitle } from "../components/SectionTitle";
+import Image from 'next/image';
 
 // mock 情绪功能数据
 const moodFeatures = [
@@ -76,10 +77,13 @@ export default function MoodHome() {
         <SectionTitle title="情绪管理" showBack />
         {/* 顶部插画 */}
         <div className="flex justify-center mb-2">
-          <img
-            src="https://placehold.co/320x120?text=情绪插画"
+          <Image
+            src="/illustrations/mood.jpeg"
             alt="情绪插画"
-            className="rounded-xl shadow bg-white w-80 h-32 object-contain"
+            width={320}
+            height={200}
+            priority
+            className="rounded-xl shadow w-full object-cover"
           />
         </div>
         {/* 功能卡片 */}

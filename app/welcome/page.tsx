@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-
-const ILLUSTRATION_URL = "/78f0b74b-4289-40a5-a297-ab504ab72a0a.png";
+import Image from 'next/image';
 
 export default function WelcomePage() {
   const router = useRouter();
@@ -33,14 +32,14 @@ export default function WelcomePage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-orange-50 to-purple-50">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center">
         {/* 顶部插图 */}
-        <div className="w-40 h-28 rounded-2xl bg-orange-100 flex items-center justify-center mb-4 overflow-hidden">
-          <img
-            src={ILLUSTRATION_URL}
+        <div className="w-64 h-48 mb-4 overflow-hidden">
+          <Image
+            src="/illustrations/welcome.jpeg"
             alt="欢迎插图"
-            className="w-full h-full object-cover"
-            onError={e => {
-              (e.target as HTMLImageElement).style.display = "none";
-            }}
+            width={280}
+            height={200}
+            priority
+            className="w-full h-full object-cover rounded-lg"
           />
         </div>
         <div className="font-bold text-xl tracking-wider text-gray-700 mb-2 text-center">

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { SectionTitle } from "../../components/SectionTitle";
 import { MeditationBlock } from "../../components/MeditationBlock";
 import { AudioPlayer } from "../../components/AudioPlayer";
+import Image from 'next/image';
 
 // 工具函数
 const getFavorites = (): string[] => {
@@ -73,8 +74,20 @@ export default function MeditationPage() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto py-8 min-h-screen flex flex-col items-center justify-center">
+    <div className="w-full max-w-md mx-auto py-8 min-h-screen flex flex-col items-center">
       <SectionTitle title="今日冥想引导" showBack />
+      
+      {/* 冥想页顶部插图 */}
+      <div className="flex justify-center mb-6">
+        <Image
+          src="/illustrations/meditation.jpeg"
+          alt="冥想练习"
+          width={280}
+          height={200}
+          priority
+          className="rounded-lg"
+        />
+      </div>
       
       {loading ? (
         <div className="text-gray-400 text-center my-8 animate-pulse">

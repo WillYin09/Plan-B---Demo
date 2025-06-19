@@ -1,23 +1,46 @@
 // /components/EmotionTabs.tsx
 import React from "react";
+import { motion } from "framer-motion";
 
 interface EmotionTabsProps {
   options: string[];
   value: string;
   onChange: (v: string) => void;
+  className?: string;
 }
-export const EmotionTabs: React.FC<EmotionTabsProps> = ({ options, value, onChange }) => (
-  <div className="flex gap-2 mb-4">
+
+export const EmotionTabs: React.FC<EmotionTabsProps> = ({ 
+  options, 
+  value, 
+  onChange,
+  className = ""
+}) => (
+  <div className={`flex flex-wrap gap-2 mb-6 ${className}`}>
     {options.map(opt => (
-      <button
+      <motion.button
         key={opt}
-        className={`px-3 py-1 rounded-xl text-sm font-medium transition ${
-          opt === value ? "bg-orange-500 text-white shadow" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+        className={`px-4 py-2 rounded-full text-sm font-medium transition-all relative overflow-hidden ${
+          opt === value 
+            ? "bg-primary-500 text-white shadow-button" 
+            : "bg-secondary-50 text-secondary-700 hover:bg-secondary-100"
         }`}
         onClick={() => onChange(opt)}
+        whileTap={{ scale: 0.97 }}
+        whileHover={{ y: -2 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
       >
+        {opt === value && (
+          <motion.span
+            className="absolute inset-0 bg-primary-400 opacity-30"
+            initial={{ scale: 0, borderRadius: "100%" }}
+            animate={{ scale: 1.5, opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          />
+        )}
         {opt}
-      </button>
+      </motion.button>
     ))}
   </div>
 );

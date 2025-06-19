@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { SectionTitle } from "../components/SectionTitle";
+import { TaskCard } from "../components/TaskCard";
 
 interface Task {
   id: string;
@@ -36,6 +39,7 @@ const initialTasks: Task[] = [
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const [activeFilter, setActiveFilter] = useState<"all" | "new" | "done">("all");
   const router = useRouter();
 
   // 加载更多任务（模拟）
@@ -43,7 +47,7 @@ export default function Tasks() {
     alert("更多任务加载占位（可接入AI/服务端）");
   };
 
-  // 支持“完成/未完成”状态切换
+  // 支持"完成/未完成"状态切换
   const toggleDone = (id: string) => {
     setTasks(prev =>
       prev.map(t =>
@@ -53,67 +57,93 @@ export default function Tasks() {
       )
     );
   };
+  
+  // 筛选任务
+  const filteredTasks = tasks.filter(task => {
+    if (activeFilter === "all") return true;
+    return task.status === activeFilter;
+  });
 
   return (
-    <div className="min-h-screen bg-[#f7f7fa] flex flex-col items-center px-2 py-6">
+    <div className="min-h-screen bg-[#f7f7fa] flex flex-col items-center px-3 py-6">
       <div className="w-full max-w-md mx-auto">
-        {/* 返回按钮 */}
-        <button
-          className="mb-4 text-gray-400 hover:text-gray-700 transition flex items-center"
-          onClick={() => router.push("/")}
+        <SectionTitle 
+          title="任务中心" 
+          subtitle="完成这些任务，帮助你度过空档期" 
+          showBack 
+        />
+
+        {/* 顶部插画 */}
+        <motion.div 
+          className="flex flex-col items-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <span className="mr-1 text-lg">←</span> 返回首页
-        </button>
-
-        {/* 顶部插画+标题 */}
-        <div className="flex flex-col items-center mb-6">
-          <img src="https://placehold.co/320x120?text=插画" alt="插画" className="rounded-xl shadow bg-white w-80 h-32 object-contain mb-4" />
-          <div className="text-xl font-bold text-gray-800">为你推荐的任务</div>
-        </div>
-
-        {/* 任务卡片列表 */}
-        <div className="space-y-4 mb-6">
-          {tasks.map(task => (
-            <div key={task.id} className="bg-white shadow-md rounded-xl p-4 flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-base">{task.status === "done" ? "✅" : "📝"}</span>
-                <span className={`text-lg font-semibold ${task.status === "done" ? "line-through text-gray-400" : ""}`}>{task.title}</span>
-              </div>
-              <div className={`text-sm ${task.status === "done" ? "text-gray-400" : "text-gray-500"}`}>{task.description}</div>
-              <div className="flex gap-2 flex-wrap">
-                {task.tags.map(tag => (
-                  <span key={tag} className="bg-gray-100 text-xs px-2 py-1 rounded">{`#${tag}`}</span>
-                ))}
-              </div>
-              <div className="flex gap-2 mt-2">
-                <button
-                  className="px-4 py-2 rounded bg-orange-500 text-white text-sm font-semibold hover:opacity-90 transition"
-                  onClick={() => router.push(`/tasks/${task.id}`)}
-                >
-                  去查看
-                </button>
-                <button
-                  className={`px-4 py-2 rounded text-sm font-semibold transition
-                    ${task.status === "done"
-                      ? "bg-green-100 text-green-700 border-green-300 border"
-                      : "bg-orange-100 text-orange-700 border-orange-200 border"
-                    }`}
-                  onClick={() => toggleDone(task.id)}
-                >
-                  {task.status === "done" ? "✅ 已完成（点我撤回）" : "标记完成"}
-                </button>
-              </div>
+          <div className="relative w-full h-40 mb-5 overflow-hidden rounded-2xl shadow-lg">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-80"></div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
+              <h2 className="text-2xl font-bold mb-2">重启指南</h2>
+              <p className="text-center text-sm opacity-90">为你提供职业空档期的全方位支持</p>
             </div>
+          </div>
+        </motion.div>
+
+        {/* 任务筛选器 */}
+        <div className="flex gap-2 mb-6">
+          {[
+            { id: "all", label: "全部" },
+            { id: "new", label: "待办" },
+            { id: "done", label: "已完成" }
+          ].map(filter => (
+            <button
+              key={filter.id}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+                activeFilter === filter.id
+                  ? "bg-primary-500 text-white shadow-button"
+                  : "bg-white text-gray-700 border border-gray-200 hover:bg-secondary-50"
+              }`}
+              onClick={() => setActiveFilter(filter.id as "all" | "new" | "done")}
+            >
+              {filter.label}
+            </button>
           ))}
         </div>
 
+        {/* 任务卡片列表 */}
+        <motion.div 
+          className="space-y-4 mb-8"
+          layout
+        >
+          {filteredTasks.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              没有符合条件的任务
+            </div>
+          ) : (
+            filteredTasks.map((task, index) => (
+              <TaskCard
+                key={task.id}
+                id={task.id}
+                title={task.title}
+                description={task.description}
+                tags={task.tags}
+                status={task.status}
+                onView={(id) => router.push(`/tasks/${id}`)}
+                onToggle={toggleDone}
+              />
+            ))
+          )}
+        </motion.div>
+
         {/* 底部生成更多任务 */}
-        <button
-          className="w-full mt-2 py-3 rounded-xl bg-orange-500 text-white font-bold shadow hover:bg-orange-600 transition"
+        <motion.button
+          className="w-full py-4 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white font-bold shadow-button hover:opacity-95 transition"
           onClick={loadMore}
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.98 }}
         >
           生成更多任务
-        </button>
+        </motion.button>
       </div>
     </div>
   );
