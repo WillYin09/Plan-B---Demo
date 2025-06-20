@@ -39,7 +39,7 @@ export default function MeditationPage() {
       // In a real app, this would be a valid audio URL from your API
       setAudioUrl("/test.mp3"); // Using sample audio file
     } catch {
-      setText("获取冥想文案失败，请稍后重试。");
+      setText("暂时无法获取引导文字，不如先自己深呼吸几次吧。");
       setIsFav(false);
     }
     setLoading(false);
@@ -75,13 +75,17 @@ export default function MeditationPage() {
 
   return (
     <div className="w-full max-w-md mx-auto py-8 min-h-screen flex flex-col items-center">
-      <SectionTitle title="今日冥想引导" showBack />
+      <SectionTitle 
+        title="安静时刻" 
+        subtitle="你可以在这里放慢节奏，跟着呼吸，专注片刻"
+        showBack 
+      />
       
       {/* 冥想页顶部插图 */}
       <div className="flex justify-center mb-6">
         <Image
           src="/illustrations/meditation.jpeg"
-          alt="冥想练习"
+          alt="呼吸练习"
           width={280}
           height={200}
           priority
@@ -91,7 +95,7 @@ export default function MeditationPage() {
       
       {loading ? (
         <div className="text-gray-400 text-center my-8 animate-pulse">
-          正在生成冥想文案，请稍等...
+          正在准备一段舒适的文字，稍等片刻...
         </div>
       ) : (
         <MeditationBlock 

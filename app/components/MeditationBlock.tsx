@@ -43,7 +43,7 @@ export const MeditationBlock: React.FC<MeditationBlockProps> = ({
 
     {audioUrl && (
       <div className="my-6 p-4 bg-secondary-50 rounded-xl border border-secondary-100">
-        <p className="text-sm text-secondary-700 mb-3">聆听冥想语音引导：</p>
+        <p className="text-sm text-secondary-700 mb-3">倾听舒缓的引导声音：</p>
         <AudioPlayer src={audioUrl} onPlay={onPlayAudio} />
       </div>
     )}
@@ -61,7 +61,7 @@ export const MeditationBlock: React.FC<MeditationBlockProps> = ({
         whileTap={{ scale: 0.97 }}
         className="bg-primary-500 text-white px-6 py-3 rounded-xl font-medium shadow-button hover:bg-primary-600 transition-colors disabled:opacity-70"
       >
-        {loading ? "生成中..." : "再来一段"}
+        {loading ? "准备中..." : "换一段引导"}
       </motion.button>
       
       <motion.button
@@ -74,10 +74,11 @@ export const MeditationBlock: React.FC<MeditationBlockProps> = ({
             ? "bg-yellow-100 text-yellow-700 border-yellow-300" 
             : "bg-white text-gray-600 border-gray-200 hover:bg-yellow-50 hover:text-yellow-700"
         }`}
+        title={bookmarked ? "已保存" : "把它留起来以后再看"}
       >
         <span className="flex items-center gap-1">
           <span>{bookmarked ? "⭐" : "☆"}</span>
-          <span>{bookmarked ? "已收藏" : "收藏"}</span>
+          <span>{bookmarked ? "已保存" : "留存"}</span>
         </span>
       </motion.button>
     </motion.div>

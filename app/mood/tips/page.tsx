@@ -4,7 +4,7 @@ import { SectionTitle } from "../../components/SectionTitle";
 import { EmotionTabs } from "../../components/EmotionTabs";
 import { SuggestionCard } from "../../components/SuggestionCard";
 
-const EMOTIONS = ["焦虑", "悲伤", "愤怒", "空虚", "无力"];
+const EMOTIONS = ["有些紧张", "有点低落", "内心烦躁", "感觉空空", "需要动力"];
 
 interface TipData {
   agent: string;
@@ -38,7 +38,7 @@ export default function MoodTipsPage() {
       const data = await res.json();
       setTips(data.tips);
     } catch {
-      setErr("生成失败，请稍后重试");
+      setErr("暂时无法获取建议，请稍后再试");
     }
     setLoading(false);
   };
@@ -60,7 +60,7 @@ export default function MoodTipsPage() {
 
   return (
     <div className="max-w-md mx-auto min-h-screen px-3 py-6">
-      <SectionTitle title="情绪调节技巧" showBack />
+      <SectionTitle title="心情舒缓指南" showBack />
       
       {/* 情绪切换 */}
       <EmotionTabs 
@@ -71,9 +71,11 @@ export default function MoodTipsPage() {
       
       {/* 建议区 */}
       {loading ? (
-        <div className="text-gray-400 text-center my-8 animate-pulse">生成中，请稍等…</div>
+        <div className="text-gray-400 text-center my-8 animate-pulse">正在思考一些适合你的方法...</div>
       ) : err ? (
         <div className="text-red-500 text-center my-8">{err}</div>
+      ) : tips.length === 0 ? (
+        <div className="text-gray-500 text-center my-8">今天没有建议也没关系，说明你很稳定</div>
       ) : (
         tips.map((tip, idx) => (
           <SuggestionCard

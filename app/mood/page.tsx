@@ -7,33 +7,33 @@ import Image from 'next/image';
 const moodFeatures = [
   {
     icon: "🧠",
-    title: "AI情绪陪伴",
-    desc: "聊天即陪伴，释放压力",
-    action: "去对话",
+    title: "心灵对话",
+    desc: "聊聊天，放松一下",
+    action: "开始聊天",
     link: "/mood/chat",
-    bg: "bg-orange-50",
+    bg: "bg-primary-50",
   },
   {
     icon: "🌬️",
-    title: "冥想练习",
-    desc: "3分钟冥想，带你安定",
-    action: "去冥想",
+    title: "安静时刻",
+    desc: "给自己几分钟的平静",
+    action: "去呼吸",
     link: "/mood/breath",
     bg: "bg-blue-50",
   },
   {
     icon: "🧰",
-    title: "情绪调节技巧",
-    desc: "学会识别情绪，调节节律",
-    action: "查看技巧",
+    title: "情绪小贴士",
+    desc: "理解自己，舒缓心情",
+    action: "查看贴士",
     link: "/mood/tips",
     bg: "bg-green-50",
   },
   {
     icon: "👥",
-    title: "匿名社群支持",
-    desc: "加入群聊，倾听与分享",
-    action: "加入群聊",
+    title: "同行社区",
+    desc: "倾听与分享，不再独行",
+    action: "加入社区",
     link: "/mood/group",
     bg: "bg-purple-50",
   },
@@ -62,7 +62,7 @@ function MoodCard({
       </div>
       <button
         onClick={() => router.push(link)}
-        className="bg-orange-500 text-white px-4 py-2 rounded-xl font-medium shadow hover:opacity-90 transition"
+        className="bg-primary-500 text-white px-4 py-2 rounded-xl font-medium shadow hover:opacity-90 transition"
       >
         {action}
       </button>
@@ -74,12 +74,16 @@ export default function MoodHome() {
   return (
     <div className="min-h-screen bg-[#f7f7fa] flex flex-col">
       <div className="w-full max-w-md mx-auto py-10 px-4 space-y-6">
-        <SectionTitle title="情绪管理" showBack />
+        <SectionTitle 
+          title="心情小站" 
+          subtitle="每个心情都值得被温柔以待" 
+          showBack 
+        />
         {/* 顶部插画 */}
         <div className="flex justify-center mb-2">
           <Image
             src="/illustrations/mood.jpeg"
-            alt="情绪插画"
+            alt="心情小站"
             width={320}
             height={200}
             priority

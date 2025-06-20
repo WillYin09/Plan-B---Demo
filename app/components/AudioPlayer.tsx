@@ -1,141 +1,100 @@
 // /components/AudioPlayer.tsx
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { FaPlay, FaPause } from "react-icons/fa";
 
 interface AudioPlayerProps {
   src: string;
-  autoPlay?: boolean;
-  onEnded?: () => void;
-  style?: React.CSSProperties;
   onPlay?: () => void;
   onPause?: () => void;
-  compact?: boolean;
 }
 
-export const AudioPlayer: React.FC<AudioPlayerProps> = ({
-  src, 
-  autoPlay, 
-  onEnded, 
-  style, 
-  onPlay, 
-  onPause,
-  compact = false
-}) => {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
+export const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, onPlay, onPause }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-
-  // Update duration once audio is loaded
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
-    };
-
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    return () => {
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-    };
-  }, []);
-
-  // Update progress during playback
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const updateProgress = () => {
-      setProgress((audio.currentTime / audio.duration) * 100 || 0);
-    };
-
-    const interval = setInterval(updateProgress, 100);
-    return () => clearInterval(interval);
-  }, [playing]);
-
-  const handlePlay = () => {
-    audioRef.current?.play();
-    setPlaying(true);
-    onPlay?.();
-  };
-
-  const handlePause = () => {
-    audioRef.current?.pause();
-    setPlaying(false);
-    onPause?.();
-  };
-
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!audioRef.current) return;
     
-    const progressBar = e.currentTarget;
-    const rect = progressBar.getBoundingClientRect();
-    const pos = (e.clientX - rect.left) / rect.width;
+    const audio = audioRef.current;
     
-    audioRef.current.currentTime = pos * audioRef.current.duration;
-    setProgress(pos * 100);
+    const updateProgress = () => {
+      if (audio.duration) {
+        setProgress((audio.currentTime / audio.duration) * 100);
+      }
+    };
+    
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setProgress(0);
+      if (onPause) onPause();
+    };
+    
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('ended', handleEnded);
+    
+    return () => {
+      audio.removeEventListener('timeupdate', updateProgress);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, [onPause]);
+  
+  const togglePlay = () => {
+    if (!audioRef.current) return;
+    
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      if (onPause) onPause();
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+      if (onPlay) onPlay();
+    }
   };
-
-  // Format time as mm:ss
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
+  
   return (
-    <motion.div 
-      style={style} 
-      className={`flex ${compact ? 'flex-row gap-2' : 'flex-col w-full'} items-center`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.2 }}
-    >
-      <audio
-        ref={audioRef}
-        src={src}
-        autoPlay={autoPlay}
-        onEnded={() => { setPlaying(false); onEnded?.(); }}
-      />
-      
-      {!compact && (
-        <div className="w-full mb-2">
-          <div 
-            className="w-full h-2 bg-secondary-100 rounded-full overflow-hidden cursor-pointer"
-            onClick={handleProgressClick}
-          >
-            <motion.div 
-              className="h-full bg-primary-500"
-              initial={{ width: "0%" }}
-              animate={{ width: `${progress}%` }}
-              transition={{ type: "tween", ease: "linear", duration: 0.1 }}
-            />
-          </div>
-          
-          <div className="flex justify-between mt-1 text-xs text-gray-500">
-            <span>{formatTime((progress / 100) * duration)}</span>
-            <span>{formatTime(duration)}</span>
-          </div>
-        </div>
-      )}
+    <div className="flex items-center gap-3 w-full">
+      <audio ref={audioRef} src={src} />
       
       <motion.button
-        onClick={playing ? handlePause : handlePlay}
+        onClick={togglePlay}
         whileTap={{ scale: 0.95 }}
-        className={`flex items-center gap-1 transition ${
-          playing
-            ? "bg-secondary-500 text-white"
-            : "bg-primary-500 text-white"
-        } px-4 py-2 rounded-full shadow-button`}
+        className="w-10 h-10 rounded-full bg-primary-500 text-white flex items-center justify-center shadow-button"
       >
-        <span className="text-xs">
-          {playing ? "⏸️" : "▶️"}
-        </span>
-        <span className="font-medium">
-          {playing ? "暂停" : "播放"}
-        </span>
+        {isPlaying ? <FaPause size={12} /> : <FaPlay size={12} className="ml-1" />}
       </motion.button>
-    </motion.div>
+      
+      <div className="flex-1 bg-gray-200 h-2 rounded-full overflow-hidden">
+        <motion.div 
+          className="h-full bg-primary-500"
+          style={{ width: `${progress}%` }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.1 }}
+        />
+      </div>
+      
+      {/* Visualizer animation when playing */}
+      {isPlaying && (
+        <div className="flex items-center gap-1">
+          {[1, 2, 3].map(i => (
+            <motion.div
+              key={i}
+              className="w-1 bg-primary-400"
+              animate={{ 
+                height: [4, 12, 4],
+              }}
+              transition={{
+                duration: 0.8,
+                repeat: Infinity,
+                delay: i * 0.2,
+                ease: "easeInOut"
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 };

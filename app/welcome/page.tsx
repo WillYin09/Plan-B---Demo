@@ -13,7 +13,7 @@ export default function WelcomePage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !password) {
-      setError("请输入账号和密码");
+      setError("需要填写账号和密码才能继续哦");
       return;
     }
     localStorage.setItem("hasVisited", "true");
@@ -29,7 +29,7 @@ export default function WelcomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-orange-50 to-purple-50">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-primary-50 to-secondary-50">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center">
         {/* 顶部插图 */}
         <div className="w-64 h-48 mb-4 overflow-hidden">
@@ -51,26 +51,26 @@ export default function WelcomePage() {
             生活暂停，不代表你被定义。
           </h1>
           <p className="text-base text-gray-600 text-center mb-2">
-            这是一个专为人生gap期、职场休息期、情绪波动期设计的一站式心理与行动支持APP。
+            这是一个专为你人生的缓步期、职场的喘息期、情绪的平复期设计的心灵陪伴空间。
             <br />
-            你可以在这里获得温柔陪伴、定制任务、信息、政策与社区支持。<br />
-            无需焦虑，请从容走好每一步～
+            你可以在这里获得陪伴、任务、信息与喘息。<br />
+            让我们慢慢来，一起探索下一步的可能～
           </p>
         </div>
         {/* 登录表单 */}
         <form className="w-full flex flex-col items-center mb-2" onSubmit={handleLogin}>
           <input
             type="text"
-            placeholder="账号"
-            className="w-full mb-3 px-4 py-2 border rounded-xl outline-none bg-gray-100"
+            placeholder="给自己起个昵称吧"
+            className="w-full mb-3 px-4 py-2 border rounded-xl outline-none bg-gray-100 focus:ring-2 focus:ring-primary-300"
             value={username}
             onChange={e => setUsername(e.target.value)}
             autoComplete="username"
           />
           <input
             type="password"
-            placeholder="密码"
-            className="w-full mb-3 px-4 py-2 border rounded-xl outline-none bg-gray-100"
+            placeholder="设置个密码，保护你的小天地"
+            className="w-full mb-3 px-4 py-2 border rounded-xl outline-none bg-gray-100 focus:ring-2 focus:ring-primary-300"
             value={password}
             onChange={e => setPassword(e.target.value)}
             autoComplete="current-password"
@@ -78,16 +78,16 @@ export default function WelcomePage() {
           {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
           <button
             type="submit"
-            className="w-full bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 rounded-2xl text-lg shadow mb-2 transition"
+            className="w-full bg-primary-400 hover:bg-primary-500 text-white font-semibold py-2 rounded-2xl text-lg shadow mb-2 transition"
           >
-            登录 / 注册
+            进入我的旅程
           </button>
         </form>
         <button
           className="text-gray-500 text-sm underline"
           onClick={handleSkip}
         >
-          跳过，直接体验
+          稍后再决定，现在先看看
         </button>
       </div>
     </div>

@@ -25,7 +25,7 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
       <div className="flex items-center gap-3">
         {showBack && (
           <motion.button
-            className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary-50 text-secondary-600 hover:bg-secondary-100 transition-colors"
+            className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary-50 text-secondary-600 hover:bg-secondary-100 transition-all"
             whileTap={{ scale: 0.95 }}
             onClick={() => (onBack ? onBack() : router.back())}
             aria-label="Go back"
@@ -34,9 +34,9 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
           </motion.button>
         )}
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 tracking-tight">{title}</h1>
+          <h1 className="text-xl font-bold text-gray-800 tracking-tight">{title}</h1>
           {subtitle && (
-            <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+            <p className="text-base text-gray-500 mt-1">{subtitle}</p>
           )}
         </div>
       </div>

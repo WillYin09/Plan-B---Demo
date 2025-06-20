@@ -2,6 +2,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { SectionTitle } from "../components/SectionTitle";
 
 const user = {
   name: "小明",
@@ -47,6 +48,9 @@ export default function UserCenter() {
 
   return (
     <div className="min-h-screen bg-[#f7f7fa] max-w-md mx-auto py-8 px-4 space-y-6">
+      {/* 返回按钮 */}
+      <SectionTitle title="个人中心" showBack />
+      
       {/* 顶部欢迎区 */}
       <div className="flex items-center space-x-4 mb-4">
         <div className="text-3xl">{user.avatar}</div>
