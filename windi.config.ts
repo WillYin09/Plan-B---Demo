@@ -7,8 +7,17 @@ export default defineConfig({
   },
   theme: {
     extend: {
+      height: { 
+        hero: 'clamp(240px, 40vh, 420px)'
+      },
       colors: {
-        primary: {
+        primary: '#E75A24', // 赤陶橙 – 关键按钮
+        paper: '#F2E5D0', // 背景米色
+        mistBlue: '#708C9E',
+        mistGreen: '#A3C6B2',
+        sand: '#D3B66A',
+        // 保留原有颜色定义为备用
+        primaryOld: {
           50: '#FFF7ED',
           100: '#FFEDD5',
           200: '#FED7AA',
@@ -32,6 +41,9 @@ export default defineConfig({
           800: '#594E7B',
           900: '#433A5F',
         },
+      },
+      fontFamily: {
+        serif: ['var(--font-playfair)', 'serif'],
       },
       borderRadius: {
         'xl': '1rem',

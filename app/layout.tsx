@@ -1,6 +1,14 @@
 import "../styles/globals.css";
 import "windi.css";
 import ClientLayout from "./client-layout";
+import { Playfair_Display } from "next/font/google";
+
+// 导入 Playfair Display 字体
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-playfair",
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -9,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh">
+    <html lang="zh" className={`${playfair.variable}`}>
       <body>
         {/* 用 client layout 包裹所有 children，实现前端守卫 */}
         <ClientLayout>
