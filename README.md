@@ -93,7 +93,7 @@ Restart-Guide
 - 如何设计 Supabase 数据结构实现页面数据回显？
 - 非技术人如何完整推进一个 Web 项目到部署上线？
 
-详情请访问 [`docs/selected-dialogue.md`](#)
+详情请访问 [`docs/selected-dialogue.md`](https://github.com/WillYin09/restart_guide/blob/main/Notes.md)
 
 ---
 
