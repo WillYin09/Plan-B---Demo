@@ -14,7 +14,7 @@
 
 ## 🧠 技术栈
 - Next.js + TailwindCSS + Supabase + Vercel
-- AI支持：OpenAI 接入对话，Cursor UI自动化
+- AI支持：DeepSeek 接入对话，Cursor UI自动化
 
 # 🚀 Restart Guide v0.3.0 - AI能力集成版
 
