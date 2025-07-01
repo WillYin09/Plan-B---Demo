@@ -62,7 +62,6 @@ Restart-Guide
 │   ├── mood
 │   ├── policy
 │   └── user
-│   └── .. 其余模块
 ├── components
 │   ├── Cards
 │   ├── Buttons
@@ -93,7 +92,7 @@ Restart-Guide
 - 如何设计 Supabase 数据结构实现页面数据回显？
 - 非技术人如何完整推进一个 Web 项目到部署上线？
 
-详情请访问 [`docs/selected-dialogue.md`](https://github.com/WillYin09/restart_guide/blob/main/Notes.md)
+详情请访问 [`docs/selected-dialogue.md`](#)
 
 ---
 
@@ -114,7 +113,8 @@ Restart-Guide
 
 欢迎通过以下方式与我交流、合作或提出建议：
 
-- [GitHub Issues](https://github.com/WillYin09/restart_guide/issues)
-- [小红书主页](https://www.xiaohongshu.com/user/profile/607615b4000000000101e2fa?xsec_token=YB8cACrT0fFfMOApQeWDvA3LVpFbURBITU29hFjqQMSE4%3D&xsec_source=app_share&xhsshare=CopyLink&appuid=607615b4000000000101e2fa&apptime=1751249221&share_id=0e751da180fa459cb01738d60e030a6c&share_channel=copy_link)
+- [GitHub Issues](#)
+- [小红书主页](#)
 
 感谢关注！✨
+
