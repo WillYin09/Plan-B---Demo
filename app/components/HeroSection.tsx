@@ -50,7 +50,7 @@ export default function HeroSection() {
         {/* 主按钮 */}
         <button
           onClick={handleStartJourney}
-          className="mt-4 bg-[#FF7E33] w-56 h-11 rounded-2xl shadow-md hover:opacity-90 active:scale-95 transition"
+          className="mt-4 bg-primary w-56 h-11 rounded-2xl shadow-md hover:opacity-90 active:scale-95 transition"
         >
           开始我的旅程
         </button>

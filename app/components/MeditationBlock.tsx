@@ -1,14 +1,16 @@
 // /components/MeditationBlock.tsx
+// 这个组件已被弃用，保留仅作为参考。
+// 功能已直接集成到 app/mood/breath/page.tsx
+
+/*
 import React from "react";
 import { motion } from "framer-motion";
-import { AudioPlayer } from "./AudioPlayer";
 
 interface MeditationBlockProps {
   text: string;
   onRegenerate: () => void;
   onBookmark: () => void;
   onPlayAudio: () => void;
-  audioUrl?: string;
   bookmarked?: boolean;
   loading?: boolean;
 }
@@ -18,7 +20,6 @@ export const MeditationBlock: React.FC<MeditationBlockProps> = ({
   onRegenerate, 
   onBookmark, 
   onPlayAudio, 
-  audioUrl, 
   bookmarked,
   loading = false
 }) => (
@@ -41,13 +42,6 @@ export const MeditationBlock: React.FC<MeditationBlockProps> = ({
       <span className="absolute -right-4 bottom-0 text-4xl opacity-20">❞</span>
     </div>
 
-    {audioUrl && (
-      <div className="my-6 p-4 bg-secondary-50 rounded-xl border border-secondary-100">
-        <p className="text-sm text-secondary-700 mb-3">倾听舒缓的引导声音：</p>
-        <AudioPlayer src={audioUrl} onPlay={onPlayAudio} />
-      </div>
-    )}
-    
     <motion.div 
       className="flex flex-wrap gap-4 mt-8"
       initial={{ opacity: 0, y: 10 }}
@@ -81,6 +75,20 @@ export const MeditationBlock: React.FC<MeditationBlockProps> = ({
           <span>{bookmarked ? "已保存" : "留存"}</span>
         </span>
       </motion.button>
+      
+      <motion.button
+        onClick={onPlayAudio}
+        disabled={loading || !text}
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.97 }}
+        className="px-6 py-3 rounded-xl font-medium shadow border bg-white text-primary-500 border-primary-500 hover:bg-primary-50 transition-all disabled:opacity-50 disabled:hover:bg-white"
+      >
+        <span className="flex items-center gap-1">
+          <span>🔊</span>
+          <span>朗读文本</span>
+        </span>
+      </motion.button>
     </motion.div>
   </motion.div>
 );
+*/

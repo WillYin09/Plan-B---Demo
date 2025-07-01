@@ -62,7 +62,7 @@ function MoodCard({
       </div>
       <button
         onClick={() => router.push(link)}
-        className="bg-primary-500 text-white px-4 py-2 rounded-xl font-medium shadow hover:opacity-90 transition"
+        className="bg-primary text-white px-4 py-2 rounded-xl font-medium shadow hover:bg-opacity-90 transition"
       >
         {action}
       </button>

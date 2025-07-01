@@ -21,7 +21,7 @@ export const EmotionTabs: React.FC<EmotionTabsProps> = ({
         key={opt}
         className={`px-4 py-2 rounded-full text-sm font-medium transition-all relative overflow-hidden ${
           opt === value 
-            ? "bg-primary-500 text-white shadow-button" 
+            ? "bg-primary text-white shadow" 
             : "bg-secondary-50 text-secondary-700 hover:bg-secondary-100"
         }`}
         onClick={() => onChange(opt)}
@@ -33,7 +33,7 @@ export const EmotionTabs: React.FC<EmotionTabsProps> = ({
       >
         {opt === value && (
           <motion.span
-            className="absolute inset-0 bg-primary-400 opacity-30"
+            className="absolute inset-0 bg-primary opacity-30"
             initial={{ scale: 0, borderRadius: "100%" }}
             animate={{ scale: 1.5, opacity: 0 }}
             transition={{ duration: 0.5 }}

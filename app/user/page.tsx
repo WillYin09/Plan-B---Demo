@@ -28,8 +28,8 @@ const records = [
 ];
 
 const settings = [
-  { label: "账号信息", action: "/settings" },
-  { label: "意见反馈", action: "/feedback" },
+  { label: "账号信息", action: "#" },
+  { label: "意见反馈", action: "#" },
   { label: "清除缓存", action: "#" },
   { label: "隐私协议", action: "#" },
 ];

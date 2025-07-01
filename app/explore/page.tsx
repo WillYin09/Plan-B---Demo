@@ -80,7 +80,7 @@ export default function Explore() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-80"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary-500 opacity-80"></div>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
           <h2 className="text-2xl font-bold mb-2">一起分享经历</h2>
           <p className="text-center text-sm opacity-90">你的故事，可能正在帮别人走出困境</p>
@@ -95,7 +95,7 @@ export default function Explore() {
             onClick={() => setTab(t.value)}
             className={`px-5 py-2 mx-1 rounded-full font-medium transition-all ${
               tab === t.value
-                ? "bg-primary-500 text-white shadow-button"
+                ? "bg-primary text-white shadow"
                 : "bg-white text-gray-700 hover:bg-secondary-50 border border-gray-200"
             }`}
             whileHover={{ y: -2 }}
@@ -108,7 +108,7 @@ export default function Explore() {
       
       {/* 创建帖子按钮 */}
       <motion.button
-        className="w-full py-3 mb-6 rounded-xl bg-secondary-500 text-white font-medium shadow-button flex items-center justify-center gap-2"
+        className="w-full py-3 mb-6 rounded-xl bg-primary text-white font-medium shadow flex items-center justify-center gap-2"
         onClick={() => router.push('/explore/create')}
         whileHover={{ y: -2 }}
         whileTap={{ scale: 0.97 }}

@@ -69,7 +69,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       
       <div className="flex flex-wrap gap-3 mt-2">
         <motion.button
-          className="px-4 py-2 rounded-full bg-primary-500 text-white text-sm font-medium shadow-button hover:bg-primary-600 transition-colors"
+          className="px-4 py-2 rounded-full bg-primary text-white text-sm font-medium shadow hover:bg-opacity-90 transition"
           onClick={() => onView(id)}
           whileTap={{ scale: 0.97 }}
         >

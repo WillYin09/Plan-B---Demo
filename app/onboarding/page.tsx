@@ -82,7 +82,7 @@ export default function OnboardingPage() {
         </div>
         <div className="space-y-3 mb-2">
           <button
-            className="w-full py-3 rounded-xl bg-primary-400 text-white font-bold shadow hover:bg-primary-500 transition"
+            className="w-full py-3 rounded-xl bg-primary text-white font-bold shadow hover:bg-opacity-90 transition"
             onClick={handleSubmit}
             disabled={!selected || (selected === "other" && !otherText.trim())}
           >

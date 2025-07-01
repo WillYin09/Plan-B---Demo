@@ -69,11 +69,11 @@ export default function MoodChat() {
         {/* 插画与提示语 */}
         <div>
           <div className="flex justify-center mb-4">
-            <img
-              src="https://placehold.co/320x120?text=情绪插画"
-              alt="情绪插画"
-              className="rounded-xl shadow bg-white w-80 h-32 object-contain"
-            />
+            <div 
+              className="rounded-xl shadow bg-secondary-100 w-80 h-32 flex items-center justify-center"
+            >
+              <div className="text-secondary-700 text-lg font-medium">情绪陪伴插画</div>
+            </div>
           </div>
           <div className="text-center text-lg font-semibold text-gray-800 mb-2">
             我们可能都经历过低谷，试试这些方法缓一缓吧
@@ -117,7 +117,7 @@ export default function MoodChat() {
             </div>
             <a
               href="/mood/breath"
-              className="ml-3 px-3 py-1 rounded bg-orange-400 text-white text-sm font-medium hover:opacity-90"
+              className="ml-3 px-3 py-1 rounded bg-primary text-white text-sm font-medium hover:opacity-90"
             >
               去冥想
             </a>
@@ -129,7 +129,7 @@ export default function MoodChat() {
             </div>
             <a
               href="/mood/group"
-              className="ml-3 px-3 py-1 rounded bg-orange-400 text-white text-sm font-medium hover:opacity-90"
+              className="ml-3 px-3 py-1 rounded bg-primary text-white text-sm font-medium hover:opacity-90"
             >
               加入群聊
             </a>
@@ -149,7 +149,7 @@ export default function MoodChat() {
           />
           <button
             onClick={sendMessage}
-            className="px-5 py-2 rounded-xl bg-orange-500 text-white font-semibold shadow hover:opacity-90"
+            className="px-5 py-2 rounded-xl bg-primary text-white font-semibold shadow hover:opacity-90"
             disabled={loading}
           >
             {loading ? "发送中…" : "发送"}

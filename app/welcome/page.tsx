@@ -29,8 +29,8 @@ export default function WelcomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-primary-50 to-secondary-50">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center relative z-10">
         {/* 顶部插图 */}
         <div className="w-64 h-48 mb-4 overflow-hidden">
           <Image
@@ -62,7 +62,7 @@ export default function WelcomePage() {
           <input
             type="text"
             placeholder="给自己起个昵称吧"
-            className="w-full mb-3 px-4 py-2 border rounded-xl outline-none bg-gray-100 focus:ring-2 focus:ring-primary-300"
+            className="w-full mb-3 px-4 py-2 border rounded-xl outline-none bg-gray-100 focus:outline-none focus:border-primary focus:border-2"
             value={username}
             onChange={e => setUsername(e.target.value)}
             autoComplete="username"
@@ -70,7 +70,7 @@ export default function WelcomePage() {
           <input
             type="password"
             placeholder="设置个密码，保护你的小天地"
-            className="w-full mb-3 px-4 py-2 border rounded-xl outline-none bg-gray-100 focus:ring-2 focus:ring-primary-300"
+            className="w-full mb-3 px-4 py-2 border rounded-xl outline-none bg-gray-100 focus:outline-none focus:border-primary focus:border-2"
             value={password}
             onChange={e => setPassword(e.target.value)}
             autoComplete="current-password"
@@ -78,13 +78,13 @@ export default function WelcomePage() {
           {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
           <button
             type="submit"
-            className="w-full bg-primary-400 hover:bg-primary-500 text-white font-semibold py-2 rounded-2xl text-lg shadow mb-2 transition"
+            className="w-full bg-primary text-white font-semibold py-2 rounded-2xl text-lg shadow mb-2 transition hover:bg-opacity-90"
           >
             进入我的旅程
           </button>
         </form>
         <button
-          className="text-gray-500 text-sm underline"
+          className="text-gray-500 text-sm underline hover:text-gray-700"
           onClick={handleSkip}
         >
           稍后再决定，现在先看看

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { SectionTitle } from "../components/SectionTitle";
 
 // Mock 数据
 const allCities = ["北京", "上海", "广州"];
@@ -49,16 +50,7 @@ export default function PolicyHome() {
   return (
     <div className="min-h-screen bg-[#f7f7fa]">
       <div className="max-w-md mx-auto py-6 px-2 space-y-4">
-
-        {/* ==== 顶部返回按钮（新加！）==== */}
-        {/* 建议所有子页面都加上，体验一致 */}
-        <button
-          onClick={() => router.back()}
-          className="mb-4 text-gray-400 hover:text-gray-700 transition"
-        >
-          ← 返回
-        </button>
-        {/* ==== 返回按钮区 END ==== */}
+        <SectionTitle title="政策资源" subtitle="获取地区政策支持" showBack />
 
         {/* 城市选择 */}
         <div className="flex justify-between items-center mb-2">
@@ -79,8 +71,8 @@ export default function PolicyHome() {
                       setCity(c);
                       setCityDropdown(false);
                     }}
-                    className={`px-4 py-2 hover:bg-orange-50 cursor-pointer ${
-                      c === city ? "font-bold text-orange-500" : ""
+                    className={`px-4 py-2 hover:bg-primary-50 cursor-pointer ${
+                      c === city ? "font-bold text-primary" : ""
                     }`}
                   >
                     {c}
@@ -101,8 +93,8 @@ export default function PolicyHome() {
               className={`px-4 py-2 rounded-2xl font-medium text-sm shadow-sm transition
                 ${
                   tab === t
-                    ? "bg-orange-400 text-white"
-                    : "bg-white text-gray-600 hover:bg-orange-100"
+                    ? "bg-primary text-white"
+                    : "bg-white text-gray-600 hover:bg-primary-50"
                 }`}
             >
               {t}
@@ -134,7 +126,7 @@ export default function PolicyHome() {
                 </div>
                 <div className="mt-1 flex justify-end">
                   <button
-                    className="bg-orange-400 text-white px-4 py-1 rounded-xl font-medium shadow hover:opacity-90 text-sm"
+                    className="bg-primary text-white px-4 py-1 rounded-xl font-medium shadow hover:bg-opacity-90 text-sm"
                     onClick={() => router.push(`/policy/${p.id}`)}
                   >
                     查看详情

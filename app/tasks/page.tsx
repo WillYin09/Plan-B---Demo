@@ -81,7 +81,7 @@ export default function Tasks() {
           transition={{ duration: 0.5 }}
         >
           <div className="relative w-full h-40 mb-5 overflow-hidden rounded-2xl shadow-lg">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-80"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary-500 opacity-80"></div>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
               <h2 className="text-2xl font-bold mb-2">重启指南</h2>
               <p className="text-center text-sm opacity-90">为你提供职业空档期的全方位支持</p>
@@ -100,7 +100,7 @@ export default function Tasks() {
               key={filter.id}
               className={`px-4 py-2 rounded-full text-sm font-medium transition ${
                 activeFilter === filter.id
-                  ? "bg-primary-500 text-white shadow-button"
+                  ? "bg-primary text-white shadow-button"
                   : "bg-white text-gray-700 border border-gray-200 hover:bg-secondary-50"
               }`}
               onClick={() => setActiveFilter(filter.id as "all" | "new" | "done")}
@@ -137,7 +137,7 @@ export default function Tasks() {
 
         {/* 底部生成更多任务 */}
         <motion.button
-          className="w-full py-4 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white font-bold shadow-button hover:opacity-95 transition"
+          className="w-full py-4 rounded-xl bg-primary text-white font-bold shadow hover:bg-opacity-90 transition"
           onClick={loadMore}
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.98 }}
